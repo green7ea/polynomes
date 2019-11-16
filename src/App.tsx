@@ -55,12 +55,16 @@ const poly_to_string = (poly: Poly): string => {
     return _(poly)
         .sort((a, b) => b.degree - a.degree)
         .reduce((acc, { scalar, degree }) => {
+            const sign = scalar >= 0 ? '+' : '-';
+            const num = Math.abs(scalar) === 1 && degree > 0 ?
+                `${expts[degree]}` :
+                `${Math.abs(scalar)}${expts[degree]}`;
+
             if (!acc) {
-                return `${scalar}${expts[degree]}`;
+                return sign === '+' ? num : `${sign}${num}`;
             }
 
-            const sign = scalar >= 0 ? '+' : '-';
-            return `${acc} ${sign} ${Math.abs(scalar)}${expts[degree]}`
+            return `${acc} ${sign} ${num}`
         }, '');
 };
 
